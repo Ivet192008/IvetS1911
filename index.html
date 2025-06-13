@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Concientización sobre la Anorexia</title>
+  
+  
+<!-- Agrega esto antes del </body> -->
+<script>
+  document.addEventListener("mousemove", e => {
+    const heart = document.createElement("div");
+    heart.textContent = "💖";
+    heart.className = "corazon-mouse";
+    heart.style.left = e.pageX + "px";
+    heart.style.top = e.pageY + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 1000);
+  });
+</script>
+
+
+<style>
+  .corazon-mouse {
+    position: absolute;
+    animation: subir-difuminar 1s ease forwards;
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  @keyframes subir-difuminar {
+    to {
+      transform: translateY(-40px);
+      opacity: 0;
+    }
+  }
+</style>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffe6f0;
+      color: #333;
+      overflow-x: hidden;
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    /* Canvas burbujas */
+    #bubbleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+    }
+
+    header {
+      background-color: #ff99cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    /*  Título brillante */
+    header h1 {
+      font-size: 2.2em;
+      animation: shine 3s infinite alternate;
+    }
+
+    @keyframes shine {
+      from { text-shadow: 0 0 5px white; }
+      to { text-shadow: 0 0 20px white, 0 0 10px #fff0f5; }
+    }
+
+    nav {
+      background-color: #ffb3d9;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      background-color: #ff99cc;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    /* 🌜 Botón modo oscuro */
+    .dark-mode {
+      background-color: #1e1e1e;
+      color: #eee;
+    }
+
+    .dark-mode header, .dark-mode footer, .dark-mode nav {
+      background-color: #333 !important;
+    }
+
+    .dark-mode .card {
+      background: #2c2c2c;
+      color: #eee;
+    }
+
+    /* 🌙 Botón de modo oscuro */
+    #darkModeBtn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      background: white;
+      color: #333;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    /* ⬆️ Botón volver arriba */
+    #toTopBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      font-size: 14px;
+      background-color: #ff99cc;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      display: none;
+      z-index: 10;
+    }
+
+    @media (max-width: 600px) {
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
+      
+    }
+    .fade-on-scroll {
+  opacity: 1;
+  transition: opacity 1.5s ease-out;
+}
+
+.fade-on-scroll.scrolled {
+  opacity: 0.3;
+}
+
+  </style>
+</head>
+<body>
+  <center>
+  <img src="anorexia1.webp" class="fade-on-scroll" id="fadeImage" width="730" height="700" />
+  </center>
+
+  <!-- 🌌 Canvas fondo -->
+  <canvas id="bubbleCanvas"></canvas>
+
+  <header>
+    <h1>Concientización sobre la Anorexia</h1>
+    <p>Información y apoyo para la prevención de trastornos alimenticios</p>
+    <!-- 🌙 Botón modo oscuro -->
+    <button id="darkModeBtn">Modo oscuro</button>
+  </header>
+<audio id="bgMusic" loop>
+  <source src="apocalypse.mp4.mp4" type="audio/mp4">
+  Tu navegador no soporta audio HTML5.
+</audio>
+
+<button id="musicToggle" style="
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff99cc;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+">
+  ▶️ Música
+</button>
+
+<script>
+  const music = document.getElementById('bgMusic');
+  const musicToggle = document.getElementById('musicToggle');
+  let isPlaying = false;
+
+  music.volume = 0.3;
+
+  musicToggle.onclick = () => {
+    if (isPlaying) {
+      music.pause();
+      musicToggle.textContent = '▶️ Música';
+    } else {
+      music.play();
+      musicToggle.textContent = '🔇 Música';
+    }
+    isPlaying = !isPlaying;
+  };
+</script>
+<script>
+  function animateCounter(id, target) {
+  const el = document.getElementById(id);
+  let count = 0;
+  const step = Math.ceil(target / 100);
+  const interval = setInterval(() => {
+    count += step;
+    if (count >= target) {
+      count = target;
+      clearInterval(interval);
+    }
+    el.textContent = count + "%";
+  }, 20);
+}
+
+window.addEventListener("scroll", () => {
+  const counter = document.getElementById("stat1");
+  if (counter.getBoundingClientRect().top < window.innerHeight) {
+    animateCounter("stat1", 12); // Ejemplo: 12%
+  }
+});
+</script>
+
+
+  <nav>
+    <a href="#quees">¿Qué es?</a>
+    <a href="#causas">Causas</a>
+    <a href="#prevencion">Prevención</a>
+    <a href="#testimonios">Testimonios</a>
+    <a href="#ayuda">¿Necesitas ayuda?</a>
+  </nav>
+   <center>
+  <img src="sintomas.jpg " alt="anorexia" width="200" height="150">
+  </center>
+
+  <section id="quees">
+    <div class="card">
+      <h2>¿Qué es la anorexia?</h2>
+      <p>La anorexia nerviosa es un trastorno alimenticio caracterizado por una restricción extrema de la ingesta de alimentos, un miedo intenso a ganar peso y una percepción distorsionada del cuerpo.</p>
+    </div>
+  </section>
+  <center>
+  <img src="imagen2" alt="anorexia" width="500" height="400">
+  </center>
+<script>
+  // api-anorexia.js
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+const datosAnorexia = {
+  trastorno: "Anorexia Nerviosa",
+  descripcion: "La anorexia es un trastorno alimenticio caracterizado por la restricción de la ingesta de alimentos, un temor intenso a subir de peso y una imagen corporal distorsionada.",
+  sintomas: [
+    "Pérdida extrema de peso",
+    "Ejercicio excesivo",
+    "Obsesión con las calorías y la dieta",
+    "Negación del hambre",
+    "Aislamiento social"
+  ],
+  causas: [
+    "Presión social o cultural",
+    "Problemas emocionales o familiares",
+    "Baja autoestima",
+    "Perfeccionismo"
+  ],
+  consecuencias: [
+    "Desnutrición severa",
+    "Problemas cardíacos",
+    "Pérdida de densidad ósea",
+    "Muerte en casos extremos"
+  ],
+  recomendaciones: [
+    "Buscar ayuda médica y psicológica",
+    "Terapia cognitivo-conductual",
+    "Apoyo familiar y social",
+    "Evitar la exposición a estándares corporales irreales"
+  ]
+};
+
+// Ruta raíz de bienvenida
+app.get('/', (req, res) => {
+  res.send('Bienvenido a la API sobre la Anorexia');
+});
+
+// Ruta para obtener los datos
+app.get('/api/anorexia', (req, res) => {
+  res.json(datosAnorexia);
+});
+
+app.listen(port, () => {
+  console.log(`API sobre anorexia disponible en http://localhost:${port}/api/anorexia`);
+});
+</script>
+  <section id="causas">
+    <div class="card">
+      <h2>Causas comunes</h2>
+      <ul>
+        <li>Presión social y cultural</li>
+        <li>Baja autoestima</li>
+        <li>Factores genéticos y biológicos</li>
+        <li>Ansiedad o depresión</li>
+      </ul>
+    </div>
+  </section>
+  <center>
+  <div class="stat">
+  <h2 id="stat1">0%</h2>
+  <p>de adolescentes padecen anorexia</p>
+</div>
+</center>
+  <center>
+                <video
+                    controls
+                    width="400"
+                    height="400"
+                    autoplay 
+                    loop
+                    muted
+                    poster="poster.pong">
+                    <source src="WhatsApp Video 2025-05-27 at 4.18.08 PM.mp4" type="video/mp4"/>
+                    <source src="WhatsApp Video 2025-05-27 at 4.18.08 PM.mp4" type="video/webm"/>
+                    <p>
+                        su navegador no soporta video HTML5. Este es un 
+                        <a href="WhatsApp Video 2025-05-27 at 4.18.08 PM.mp4">enlace al video</a> alternativo.
+                    </p>
+                </video>
+                 </center>
+
+  <section id="prevencion">
+    <div class="card">
+      <h2>Prevención</h2>
+      <p>Es fundamental promover una imagen corporal positiva, educar sobre hábitos alimenticios saludables y brindar apoyo emocional, especialmente en la adolescencia.</p>
+    </div>
+  </section>
+  <center>
+  <img src="anorexia.avif" alt="anorexia" width="200" height="150">
+  </center>
+
+
+  <section id="ayuda">
+    <div class="card">
+      <h2>¿Necesitas ayuda?</h2>
+      <p>Si tú o alguien que conoces está luchando contra la anorexia, busca apoyo profesional. Habla con un médico, psicólogo o llama a una línea de ayuda especializada.</p>
+    </div>
+  </section>
+  <center>
+  <img src="imagen 3" alt="anorexia" width="300" height="290">
+  </center>
+
+
+
+  <!-- Testimonios -->
+  <section id="testimonios">
+    <div class="card testimonial">
+      <h2>Testimonios</h2>
+      <p>"Recuperarme fue difícil, pero valió la pena. Hoy me amo como soy." — Ana, 21 años</p>
+      <p>"Pedir ayuda fue el primer paso a una vida libre." — Carla, 18 años</p>
+      <p>"Como psicólogo, he visto cómo el apoyo marca la diferencia." — Dr. Ruiz</p>
+    </div>
+  </section>
+   
+
+  
+  <!-- ⬆ Botón volver arriba -->
+  <button id="toTopBtn">↑</button>
+  <script>
+  window.addEventListener("scroll", () => {
+  const image = document.getElementById("fadeImage");
+  if (window.scrollY > 150) {
+    image.classList.add("scrolled");
+  } else {
+    image.classList.remove("scrolled");
+  }
+});
+</script>
+!--  Scripts -->
+  <script>
+    //  Fondo de burbujas
+    const canvas = document.getElementById('bubbleCanvas');
+    const ctx = canvas.getContext('2d');
+    let bubbles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      bubbles = [];
+      for (let i = 0; i < 40; i++) {
+        bubbles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 10 + 5,
+          speed: Math.random() * 1.5 + 0.5,
+          alpha: Math.random() * 0.3 + 0.2
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let b of bubbles) {
+        b.y -= b.speed;
+        if (b.y + b.r < 0) {
+          b.y = canvas.height + b.r;
+          b.x = Math.random() * canvas.width;
+        }
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 182, 193, ${b.alpha})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    draw();
+
+    // Modo oscuro
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    darkModeBtn.onclick = () => {
+      document.body.classList.toggle('dark-mode');
+    };
+
+    // ⬆ Volver arriba
+    const toTopBtn = document.getElementById('toTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        toTopBtn.style.display = 'block';
+      } else {
+        toTopBtn.style.display = 'none';
+      }
+    });
+
+    toTopBtn.onclick = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  </script>
+  <style>
+   nav button, .producto button {
+  animation: brilloSuave 2s infinite alternate;
+}
+
+@keyframes brilloSuave {
+  from { box-shadow: 0 0 5px #fff0f5; }
+  to { box-shadow: 0 0 15px #ffb6c1; }
+}
+  </style>
+  <style>
+    
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #ffe4ec, #e0f7fa, #fce4ec);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem;
+      background-color: #fce4ec;
+      animation: fadeInDown 1.5s ease;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #c2185b;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .bloque {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s;
+    }
+
+    .bloque:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      color: #8e24aa;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+    }
+
+    .testimonio {
+      background: #f3e5f5;
+      padding: 1rem;
+      border-left: 5px solid #ab47bc;
+      margin-top: 1rem;
+      font-style: italic;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      background: #c8e6c9;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    /* Botón decorativo con brillo */
+    .boton-brillante {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      margin-top: 1rem;
+      background: #ffb6c1;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .boton-brillante::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: rgba(255,255,255,0.4);
+      transform: skewX(-20deg);
+      transition: left 0.5s;
+    }
+
+    .boton-brillante:hover::after {
+      left: 130%;
+    }
+
+    .boton-brillante:hover {
+      background: #ff69b4;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Estrellitas al mover el mouse */
+    .estrella {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: yellow;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 
+                         68% 57%, 79% 91%, 50% 70%, 
+                         21% 91%, 32% 57%, 2% 35%, 
+                         39% 35%);
+      opacity: 1;
+      animation: sparkle 0.8s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes sparkle {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+  </style>
+  <a href="anorexia.html"style="display:block; tex-align: center; margin: auto;" target="_blank">Ir a graficas</a> 

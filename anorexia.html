@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infografía: Anorexia en el Mundo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #ffe4ec, #e0f7fa, #fce4ec);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem;
+      background-color: #fce4ec;
+      animation: fadeInDown 1.5s ease;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #c2185b;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .bloque {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s;
+    }
+
+    .bloque:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      color: #8e24aa;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+    }
+
+    .testimonio {
+      background: #f3e5f5;
+      padding: 1rem;
+      border-left: 5px solid #ab47bc;
+      margin-top: 1rem;
+      font-style: italic;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      background: #c8e6c9;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    /* Botón decorativo con brillo */
+    .boton-brillante {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      margin-top: 1rem;
+      background: #ffb6c1;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .boton-brillante::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: rgba(255,255,255,0.4);
+      transform: skewX(-20deg);
+      transition: left 0.5s;
+    }
+
+    .boton-brillante:hover::after {
+      left: 130%;
+    }
+
+    .boton-brillante:hover {
+      background: #ff69b4;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Estrellitas al mover el mouse */
+    .estrella {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: yellow;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 
+                         68% 57%, 79% 91%, 50% 70%, 
+                         21% 91%, 32% 57%, 2% 35%, 
+                         39% 35%);
+      opacity: 1;
+      animation: sparkle 0.8s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes sparkle {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<audio id="bgMusic" loop>
+  <source src="apocalypse.mp4.mp4" type="audio/mp4">
+  Tu navegador no soporta audio HTML5.
+</audio>
+
+</button>
+<button id="musicToggle" style="
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff99cc;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+">
+  ▶️ Música
+</button>
+<script>
+  const music = document.getElementById('bgMusic');
+  const musicToggle = document.getElementById('musicToggle');
+  let isPlaying = false;
+
+  music.volume = 0.3;
+
+  musicToggle.onclick = () => {
+    if (isPlaying) {
+      music.pause();
+      musicToggle.textContent = '▶️ Música';
+    } else {
+      music.play();
+      musicToggle.textContent = '🔇 Música';
+    }
+    isPlaying = !isPlaying;
+  };
+</script>
+<body>
+
+  <header>
+    <h1>🌍 Anorexia en el Mundo</h1>
+    <p>Conoce más sobre las causas, prevención y experiencias reales</p>
+  </header>
+
+  <section class="bloque">
+    <h2>📌 Causas Comunes</h2>
+    <ul>
+      <li>Presión social y estándares de belleza irreales</li>
+      <li>Baja autoestima o inseguridad</li>
+      <li>Problemas familiares o emocionales</li>
+      <li>Trastornos de ansiedad o depresión</li>
+      <li>Influencias de redes sociales y medios</li>
+    </ul>
+    <button class="boton-brillante">Ver más</button>
+  </section>
+
+  <section class="bloque">
+    <h2>🛡️ Prevención</h2>
+    <ul>
+      <li>Fomentar una autoestima saludable</li>
+      <li>Educación sobre nutrición y cuerpo</li>
+      <li>Acompañamiento psicológico temprano</li>
+      <li>Comunicación abierta en la familia</li>
+      <li>Menos comparación en redes sociales</li>
+    </ul>
+    <button class="boton-brillante">Consejos útiles</button>
+  </section>
+
+  <section class="bloque">
+    <h2>🗣️ Testimonios</h2>
+    <div class="testimonio">
+      "Nunca pensé que hablar de mi problema me salvaría. Hoy agradezco haber pedido ayuda." – Laura, 19 años.
+    </div>
+    <div class="testimonio">
+      "Lo más difícil fue aceptar que necesitaba apoyo, pero valió la pena cada paso." – Ana, 23 años.
+    </div>
+    <button class="boton-brillante">Leer más historias</button>
+  </section>
+
+  <footer>
+    © 2025 Infografía sobre Salud Mental •
+  </footer>
+
+  <!-- Script para las estrellitas del mouse -->
+  <script>
+    document.addEventListener("mousemove", function(e) {
+      const estrella = document.createElement("div");
+      estrella.classList.add("estrella");
+      estrella.style.left = e.pageX + "px";
+      estrella.style.top = e.pageY + "px";
+      document.body.appendChild(estrella);
+      setTimeout(() => {
+        estrella.remove();
+      }, 800);
+    });
+  </script>
+
+</body>
+</html>
